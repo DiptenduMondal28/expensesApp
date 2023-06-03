@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking appointment app</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <header style="color: red;">
+        <h1>Booking your appointment</h1>
+    </header>
+    <section class="container">
+        <form id="my-form" onsubmit="myFunc(event)">
+            <h2 style="color: brown;">users</h2>
+
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" >
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="text" id="email" >
+            </div>
+            <div>
+                <label for="number">phone number:</label>
+                <input type="number" id="phone" >
+            </div>
+            <div>
+                <label for="datetime">tentative date span:</label>
+                <input type="datetime-local" id="date" >
+            </div>
+            <input class="btn" type="submit" value="Submit">
+        </form>
+        <ul id="users"></ul>
+      </section>
+    <script src="crudcrud.js"></script>
+</body>
+</html>
