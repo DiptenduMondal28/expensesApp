@@ -1,26 +1,21 @@
-const express= require('express');
-const path=require('path')
-const app= express()
-const sequelize=require('./util/database')
-
-const route=require('./router/routes');
-
-const cors=require('cors');
-app.use(cors);
-
+const express=require('express');
 const bodyParser=require('body-parser');
-app.use(bodyParser.json())
-//app.use(bodyParser.urlencoded({extended:false}));
+const sequelize=require('./util/database');
+const cors=require('cors');
+const router=require('./router/router')
 
-app.use(route)
+const app=express();
+app.use(bodyParser.json());
+app.use(cors());
 
+app.use(router)
 app.use((req,res,next)=>{
-    res.send("<h1>404 error</h1>")
+    res.status(404).send('<h1>404 error!</h1>')
 })
 
-sequelize.sync().then(res=>{
-    console.log("sync")
+sequelize.sync().then(result=>{
+    console.log('sync')
     app.listen(3000);
 }).catch(err=>{
-    console.log(err)
-})
+    console.log(err);
+});
