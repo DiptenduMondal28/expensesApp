@@ -3,11 +3,13 @@ const bodyParser=require('body-parser');
 const cors=require('cors');
 const route=require('./router/router');
 const sequelize=require('./util/database');
+const signupRouter=require('./router/signupRoute')
 
 const app=express();
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use(signupRouter) //sign up page router
 app.use(route);
 app.use((req,res,next)=>{
     res.status(404).send('<h1>404 Error!</h1><br><h4>no page exixt like that URL!</h4>')

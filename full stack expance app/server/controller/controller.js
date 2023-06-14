@@ -49,20 +49,34 @@ module.exports.deletedata=async(req,res,next)=>{
     }
 }
 
-module.exports.editdata=async(req,res,next)=>{
+module.exports.geteditdata=async(req,res,next)=>{
     let id=req.params.id;
     const editid=await User.findByPk(id);
+    console.log(editid)
     try{
-        editid.name=req.body.name;
-        editid.exp=req.body.exp;
-        editid.item=req.body.item;
-        editid.category-req.body.category;
-        const updatItem = await User.save();
-        try{
-            res.send(updatItem);
-        }catch(err){
-            console.log(err)
-        }
+        res.json(editid);
+    }catch(err){
+        console.log(err);
+    }
+}
+
+module.exports.saveEditdata=async (req,res,next)=>{
+    const id=req.params.id;
+    const detail=await User.findByPk(id);
+
+    try{
+        detail.name=req.body.name;
+        detail.exp=req.body.exp;
+        detail.item=req.body.item;
+        detail.category=req.body.category;
+        const updateuser=await detail.save();
+        console.log(updateuser)
+        res.send(updateuser);
+        // try{
+        //     res.json(updateuser)
+        // }catch(err){
+        //     console.log(err)
+        // }
     }catch(err){
         console.log(err);
     }
