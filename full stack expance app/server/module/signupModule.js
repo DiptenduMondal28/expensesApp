@@ -9,7 +9,11 @@ const Credential=sequalize.define('credential',{
         primaryKey:true
     },
     name:Sequalize.STRING,
-    email:Sequalize.STRING,
+    email:{
+        type:Sequalize.STRING,
+        allowNull: false,
+        unique: true
+    },
     password:Sequalize.STRING
 });
 
