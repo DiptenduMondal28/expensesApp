@@ -30,3 +30,23 @@ module.exports.signup=async(req,res,next)=>{
        res.status(500).json(err)
     }
 }
+
+// module.exports.login=async(req,res,next)=>{
+//     // try{
+//         const email=req.body.email;
+//         const password=req.body.password;
+//         const credentialCheck=await Credential.findAll({where:{email}}).then(user =>{
+//             if(user.length>0){
+//                 if(user[0].password===password){
+//                     res.status(200).json({success:true,message:'user loggedin succesfull'})
+//                 }else{
+//                     res.status(400).json({success:false,message:'check password'})
+//                 }
+//             }else{
+//                 res.status(404).json({success:false,message:"user not signup"})
+//             }
+//         }).catch(err=>{
+//             res.status(500).json({success:false,message:err})
+//         })
+        
+// }
