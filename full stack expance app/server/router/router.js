@@ -12,7 +12,10 @@ router.get('/getexpence',controller.getdata);
 //delete data from list
 router.delete('/deletadata/:id',controller.deletedata);
 
-//user updatae from list
-router.put('/editdata/:id',controller.editdata)
+//get user updatae from list
+router.get('/geteditdata/:id',controller.geteditdata);
+
+//save user updata
+router.put('/saveeditdata/:id',controller.saveEditdata);
 
 module.exports=router;

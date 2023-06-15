@@ -20,8 +20,8 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 
 
-function myFunc(event){
-    event.preventDefault();
+async function myFunc(event){
+    //event.preventDefault();
     let detail={
         name:document.getElementById('name').value,
         price:document.getElementById('price').value,
@@ -35,6 +35,9 @@ function myFunc(event){
             console.log(err)
         })
 
+        document.getElementById('name').value=null;
+        document.getElementById('price').value=null;
+        document.getElementById('item').value=null;
 }
 
 async function showFood(detail){
@@ -49,7 +52,7 @@ async function showFood(detail){
     deleteButton.value='delete';
     deleteButton.onclick=()=>{
         let element=axios.delete(`http://localhost:3000/deletedata/${detail.id}`)
-
+        food.removeChild(list);
     }
 
     list.appendChild(deleteButton);
@@ -68,6 +71,7 @@ async function showelectronics(detail){
     deleteButton.value='delete';
     deleteButton.onclick=()=>{
         let element=axios.delete(`http://localhost:3000/deletedata/${detail.id}`)
+        electronics.removeChild(list)
     }
 
     list.appendChild(deleteButton);
@@ -85,7 +89,8 @@ async function showcloth(detail){
     deleteButton.type='button';
     deleteButton.value='delete';
     deleteButton.onclick=()=>{
-        let element=axios.delete(`http://localhost:3000/deletedata/${detail.id}`)
+        let element=axios.delete(`http://localhost:3000/deletedata/${detail.id}`);
+        cloth.removeChild(list);
     }
 
     list.appendChild(deleteButton);
