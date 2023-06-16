@@ -2,7 +2,7 @@ const Sequalize=require('sequelize');
 
 const sequalize=require('../util/database');
 
-const Credential=sequalize.define('credential',{
+const User=sequalize.define('user',{
     id:{
         type:Sequalize.INTEGER,
         autoIncrement:true,
@@ -17,4 +17,4 @@ const Credential=sequalize.define('credential',{
     password:Sequalize.STRING
 });
 
-module.exports = Credential;
+module.exports = User;

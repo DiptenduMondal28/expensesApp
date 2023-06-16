@@ -2,7 +2,7 @@ const Sequalize=require('sequelize');
 
 const sequalize=require('../util/database');
 
-const User= sequalize.define('expence',{
+const Expence= sequalize.define('expence',{
     id:{
         type:Sequalize.INTEGER,
         autoIncrement:true,
@@ -14,4 +14,4 @@ const User= sequalize.define('expence',{
     category:Sequalize.STRING
 });
 
-module.exports=User;
+module.exports=Expence;
