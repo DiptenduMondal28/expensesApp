@@ -1,8 +1,9 @@
 
 
+
 async function login(event){
     event.preventDefault();
-    try{
+    // try{
         let email=document.getElementById('email').value;
         let password=document.getElementById('password').value;
         const detail={
@@ -17,14 +18,17 @@ async function login(event){
                 throw new Error(response.data.message)
             }
         }).catch(err=>{
-            console.log("json string fy")
-            console.log(JSON.stringify(err))
+            console.log(err)
             //document.body.innerHTML+=`<div style="color:red;">line 19${err}</div>`
-            alert(err)
+            //alert(err)
+            console.log(err.response.data.message)
+            const fullMessage=err.response.data.message +"  error:" +err.request.status
+            console.log(fullMessage)
+            alert(fullMessage)
         })
         
-    }catch(err){
-        console.log(err)
-        document.body.innerHTML+=`<div style="color:red;">line 24${err}</div>`
-    }
+    // }catch(err){
+    //     console.log(err)
+    //     document.body.innerHTML+=`<div style="color:red;">line 29${err}</div>`
+    // }
 }
