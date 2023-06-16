@@ -14,6 +14,7 @@ async function login(event){
         await axios.post('http://localhost:3000/login',detail).then(response=>{
             if(response.status===200){
                 alert(response.data.message)
+                window.location.href='./expenceTracker.html'
             }else{
                 throw new Error(response.data.message)
             }

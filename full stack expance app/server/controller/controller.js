@@ -1,5 +1,4 @@
 const User=require('../module/module');
-const { use } = require('../router/router');
 
 module.exports.dataupload=async(req,res,next)=>{
     try{
