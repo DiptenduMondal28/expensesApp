@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded',()=>{
-    let detail = axios.get('http://localhost:3000/getexpence').then((result)=>{
+    const token = localStorage.getItem('token')
+    let detail = axios.get('http://localhost:3000/getexpence',{headers:{'Authorization':token}}).then((result)=>{
         console.log(result.data);
         // var total=0;
         totalexp(result)
@@ -26,18 +27,19 @@ function myfunc(event){
         category:document.getElementById('category').value
     }
     console.log(mode)
-    if(mode===null){
-        axios.post('http://localhost:3000/datapost',detail)
-    }else{
-        console.log("before put"+mode)
-        let element = axios.put(`http://localhost:3000/saveeditdata/${mode}`,detail).then(res=>{
-            console.log(res)
-        }).catch(err=>{
-            console.log(err)
-        })
-        console.log(element)
-        mode=null;
-    }
+    const token = localStorage.getItem('token')
+    // if(mode===null){
+        axios.post('http://localhost:3000/datapost',detail,{headers:{'Authorization':token}})
+    // }else{
+    //     console.log("before put"+mode)
+    //     let element = axios.put(`http://localhost:3000/saveeditdata/${mode}`,detail).then(res=>{
+    //         console.log(res)
+    //     }).catch(err=>{
+    //         console.log(err)
+    //     })
+    //     console.log(element)
+    //     mode=null;
+    // }
     
     document.getElementById('name').value=null;
     document.getElementById('expence').value=null;
@@ -58,35 +60,36 @@ async function showDeleteEdit(detail){
     deleteKey.type='button';
     deleteKey.value='delete';
     deleteKey.onclick=()=>{
-        let element = axios.delete(`http://localhost:3000/deletadata/${detail.id}`);
+        const token = localStorage.getItem('token')
+        let element = axios.delete(`http://localhost:3000/deletadata/${detail.id}`,{headers:{'Authorization':token}});
         axios.delete(element)
         expenceList.removeChild(expence);
     }
 
     //edit key
-    let editKey=document.createElement('input');
-    editKey.type='button';
-    editKey.value='edit';
-    editKey.onclick=async()=>{
-        const editid=await axios.get(`http://localhost:3000/geteditdata/${detail.id}`).then(result=>{
-            console.log(result);
-            try{
-                    document.getElementById('name').value=detail.name;
-                    document.getElementById('expence').value=detail.exp;
-                    mode=detail.id;
-                    console.log(mode)
-                }catch(err){
-                    console.log(err);
-                }
-            }).catch(error=>{
-            console.log(error);
-        })
+    // let editKey=document.createElement('input');
+    // editKey.type='button';
+    // editKey.value='edit';
+    // editKey.onclick=async()=>{
+    //     const editid=await axios.get(`http://localhost:3000/geteditdata/${detail.id}`).then(result=>{
+    //         console.log(result);
+    //         try{
+    //                 document.getElementById('name').value=detail.name;
+    //                 document.getElementById('expence').value=detail.exp;
+    //                 mode=detail.id;
+    //                 console.log(mode)
+    //             }catch(err){
+    //                 console.log(err);
+    //             }
+    //         }).catch(error=>{
+    //         console.log(error);
+    //     })
         
-    }
+    // }
 
 
     expence.appendChild(deleteKey);
-    expence.appendChild(editKey);
+    // expence.appendChild(editKey);
     expenceList.appendChild(expence);
 
     //editKey.addEventListener('click',updateuser)

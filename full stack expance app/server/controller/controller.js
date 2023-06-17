@@ -6,21 +6,29 @@ module.exports.dataupload=async(req,res,next)=>{
         const exp=req.body.exp;
         const item=req.body.item;
         const category=req.body.category;
-        console.log('datacontroller:'+name+exp+item+category);
-        const data = await User.create({
+        console.log('datacreate')
+        //console.log(+name+exp+item+category);
+        console.log(req.user.id)
+        const userId=req.user.id;
+        User.create({
             name:name,
             exp:exp,
             item:item,
-            category:category
+            category:category,
+            userId:req.user.id
+        }).then(result=>{
+            console.log(result)
+            return res.status(201).json({result,success:true})
+        }).catch(err=>{
+            console.log(err)
         })
-        console.log("controller data creation:"+data)
     }catch(err){
         console.log(err);
     }
 }
 
 module.exports.getdata=async(req,res,next)=>{
-    const expence=await User.findAll();
+    const expence=await User.findAll({where:{userID:req.user.id}});
 
     try{
         res.send(expence);
@@ -33,8 +41,9 @@ module.exports.getdata=async(req,res,next)=>{
 module.exports.deletedata=async(req,res,next)=>{
     const id=req.params.id;
     const deleteid=await User.findByPk(id);
+    console.log(req.user.id)
     try{
-        const destruction=await deleteid.destroy();
+        const destruction=await deleteid.destroy({where:{userID:req.user.id}});
         try{
             res.send('deleted')
         }catch(error){
