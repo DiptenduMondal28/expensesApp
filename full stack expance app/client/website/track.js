@@ -2,17 +2,14 @@ window.addEventListener('DOMContentLoaded',()=>{
     const token = localStorage.getItem('token')
     let detail = axios.get('http://localhost:3000/getexpence',{headers:{'Authorization':token}}).then((result)=>{
         console.log(result.data);
-        // var total=0;
         totalexp(result)
         for(let i=0;i<result.data.length;i++){
             showDeleteEdit(result.data[i]);
-            //total+=result.data[i].exp;
         }
         
     }).catch(err=>{
         console.log(err);
     })
-    //totalexp(detail);
 })
 
 
@@ -28,18 +25,7 @@ function myfunc(event){
     }
     console.log(mode)
     const token = localStorage.getItem('token')
-    // if(mode===null){
         axios.post('http://localhost:3000/datapost',detail,{headers:{'Authorization':token}})
-    // }else{
-    //     console.log("before put"+mode)
-    //     let element = axios.put(`http://localhost:3000/saveeditdata/${mode}`,detail).then(res=>{
-    //         console.log(res)
-    //     }).catch(err=>{
-    //         console.log(err)
-    //     })
-    //     console.log(element)
-    //     mode=null;
-    // }
     
     document.getElementById('name').value=null;
     document.getElementById('expence').value=null;
@@ -65,46 +51,42 @@ async function showDeleteEdit(detail){
         axios.delete(element)
         expenceList.removeChild(expence);
     }
-
-    //edit key
-    // let editKey=document.createElement('input');
-    // editKey.type='button';
-    // editKey.value='edit';
-    // editKey.onclick=async()=>{
-    //     const editid=await axios.get(`http://localhost:3000/geteditdata/${detail.id}`).then(result=>{
-    //         console.log(result);
-    //         try{
-    //                 document.getElementById('name').value=detail.name;
-    //                 document.getElementById('expence').value=detail.exp;
-    //                 mode=detail.id;
-    //                 console.log(mode)
-    //             }catch(err){
-    //                 console.log(err);
-    //             }
-    //         }).catch(error=>{
-    //         console.log(error);
-    //     })
-        
-    // }
-
-
     expence.appendChild(deleteKey);
-    // expence.appendChild(editKey);
     expenceList.appendChild(expence);
-
-    //editKey.addEventListener('click',updateuser)
-
 }
 
 function totalexp(total){
     let totalexp=document.getElementById('total');
-    // totalexp.textContent="total expendeture:"+total;
     var totalexpenditure=0;
-
     for(let i=0;i<total.data.length;i++){
         totalexpenditure+=total.data[i].exp;
     }
-
     totalexp.textContent="total expendeture:"+totalexpenditure;
 }
+
+document.getElementById('rzp-button1').onclick= async function (e){
+    const token = localStorage.getItem('token');
+    console.log(token)
+    const response = await axios.get('http://localhost:3000/purchase/premiummembership',{headers:{'Authorization':token}})
+    console.log(response);
+    var options={
+        "key":response.data.key_id,
+        "order_id": response.data.order.id,
+        "handler":async function (response){
+            await axios.post('http://localhost:3000/purchase/updatetransactionstatus',{
+                order_id:options.order_id,
+                payment_id:response.razorpay_payment_id,
+            },{headers:{'Authorization':token}})
+
+            alert('you are now a premium user')
+        }
+    };
+    const rzp1=new Razorpay(options);
+    rzp1.open();
+    e.preventDefault();
+    rzp1.on('payment.failed',function(response){
+        console.log(response);
+        alert('something wrong')
+    });
+};
 
