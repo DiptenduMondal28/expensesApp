@@ -1,9 +1,11 @@
 const Credential=require('../module/signupModule');
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken');
+const { where } = require('sequelize');
+const env = require('dotenv').config();
 
 function generateAccessToken(id,name){
-    return jwt.sign({userId:id,name:name},'3fb0815c28219e153c15456797f7f6df222623ea516cee8c9482b06915ac3710')
+    return jwt.sign({userId:id,name:name},process.env.token)
 }
 
 module.exports.login=async(req,res,next)=>{
@@ -35,4 +37,12 @@ module.exports.login=async(req,res,next)=>{
             res.status(500).json({success:false,message:`something error:${err}`})
         })
         
+}
+
+
+module.exports.ispremium=async (req,res,next)=>{
+    console.log(req.user.id)
+    const detail=await  Credential.findAll({where:{id:req.user.id}})
+    console.log(detail)
+    res.send(detail);
 }
