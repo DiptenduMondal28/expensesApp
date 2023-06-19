@@ -2,12 +2,14 @@ const Rozarpay=require('razorpay');
 
 const Order=require('../module/puchase');
 
+const env = require('dotenv').config();
+
 
 module.exports.purchasepremium=async(req,res,next)=>{
     try{
         var rzp=new Rozarpay({
-            key_id:'put key....',
-            key_secret:'put decret key'
+            key_id:process.env.razorPay_key_id,
+            key_secret:process.env.razorPay_key_secret
         })
 
         const amount=2500;
@@ -33,20 +35,40 @@ module.exports.purchasepremium=async(req,res,next)=>{
 module.exports.updatetransactionstatus=async(req,res,next)=>{
     try{
         const {payment_id,order_id}=req.body;
+        console.log("on successfull state or not:",payment_id)
         console.log(payment_id,order_id)
-        Order.findOne({where:{orderid:order_id}}).then(order=>{
-            order.update({paymentid:payment_id,status:'SUCCESSFUL'}).then(()=>{
-                req.user.update({ispremiumuser:true}).then(()=>{
-                    return res.status(202).json({success:true,message:'transaction successfull'});
-                }).catch((err)=>{
-                    throw new Error(err);
-                })
-            }).catch((err)=>{
-                throw new Error(err);
-            })
+        const order=await Order.findOne({where:{orderid:order_id}})
+        if(!order){
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+        if(payment_id===null){
+            const promise1=await order.update({paymentid:payment_id,status:'FAILED'})
+            const promise2 = await req.user.update({ispremium:false})
+            Promise.all([promise1,promise2]).then(()=>{
+            return res.status(202).json({success:true,message:'transaction successfull'});
         }).catch(err=>{
             console.log(err)
+            return res.status(500).json({ success: false, message: 'Transaction update failed' });
         })
+        }else{
+            const promise1=await order.update({paymentid:payment_id,status:'SUCCESSFUL'})
+            const promise2 = await req.user.update({ispremium:true})
+            Promise.all([promise1,promise2]).then(()=>{
+            return res.status(202).json({success:true,message:'transaction successfull'});
+        }).catch(err=>{
+            console.log(err)
+            return res.status(500).json({ success: false, message: 'Transaction update failed' });
+        })
+        }
+        //const promise1=await order.update({paymentid:payment_id,status:'SUCCESSFUL'})
+        // const promise2 = await req.user.update({ispremiumuser:true})
+        // Promise.all([promise1,promise2]).then(()=>{
+        //     return res.status(202).json({success:true,message:'transaction successfull'});
+        // }).catch(err=>{
+        //     console.log(err)
+        //     return res.status(500).json({ success: false, message: 'Transaction update failed' });
+        // })
+                
     }catch(err){
         console.log(err)
         throw new Error(err);

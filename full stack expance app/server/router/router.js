@@ -13,10 +13,8 @@ router.get('/getexpence',authentication.authenticate,controller.getdata);
 //delete data from list
 router.delete('/deletadata/:id',authentication.authenticate,controller.deletedata);
 
-//get user updatae from list
-router.get('/geteditdata/:id',controller.geteditdata);
+//is premium or not
+// router.get('/ispremium',authentication.authenticate,controller.ispremium)
 
-//save user updata
-router.put('/saveeditdata/:id',controller.saveEditdata);
 
 module.exports=router;

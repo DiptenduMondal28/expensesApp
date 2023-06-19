@@ -89,3 +89,8 @@ module.exports.saveEditdata=async (req,res,next)=>{
         console.log(err);
     }
 }
+
+// module.exports.ispremium=async (req,res,next)=>{
+//     const detail=await User.findAll({where:{userID:req.user.id}});
+//     res.send(detail);
+// }

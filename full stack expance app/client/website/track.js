@@ -1,6 +1,6 @@
-window.addEventListener('DOMContentLoaded',()=>{
+window.addEventListener('DOMContentLoaded',async()=>{
     const token = localStorage.getItem('token')
-    let detail = axios.get('http://localhost:3000/getexpence',{headers:{'Authorization':token}}).then((result)=>{
+    let detail =await axios.get('http://localhost:3000/getexpence',{headers:{'Authorization':token}}).then((result)=>{
         console.log(result.data);
         totalexp(result)
         for(let i=0;i<result.data.length;i++){
@@ -10,10 +10,11 @@ window.addEventListener('DOMContentLoaded',()=>{
     }).catch(err=>{
         console.log(err);
     })
+    
+
 })
 
 
-let mode=null;
 
 function myfunc(event){
     //event.preventDefault();
@@ -64,6 +65,19 @@ function totalexp(total){
     totalexp.textContent="total expendeture:"+totalexpenditure;
 }
 
+window.addEventListener('DOMContentLoaded',()=>{
+    const token=localStorage.getItem('token')
+    let ispremium=axios.get('http://localhost:3000/ispremium',{headers:{'Authorization':token}}).then(result=>{
+        console.log(result)
+        if(result.data[0].ispremium===true){
+            document.getElementById('rzp-button1').style.display='none';
+            document.getElementById('ispremium').textContent='you are a premium user SEE LEADERBOARD:';
+            premiumfeature(result);
+        }
+    })
+    
+})
+
 document.getElementById('rzp-button1').onclick= async function (e){
     const token = localStorage.getItem('token');
     console.log(token)
@@ -79,14 +93,36 @@ document.getElementById('rzp-button1').onclick= async function (e){
             },{headers:{'Authorization':token}})
 
             alert('you are now a premium user')
+
         }
     };
     const rzp1=new Razorpay(options);
     rzp1.open();
-    e.preventDefault();
+    // e.preventDefault();
     rzp1.on('payment.failed',function(response){
         console.log(response);
         alert('something wrong')
     });
 };
 
+async function premiumfeature(result){
+
+    const premium=document.getElementById('ispremium');
+    const leaderboardButton=document.createElement('input');
+    leaderboardButton.type='button';
+    leaderboardButton.value='leadderboard';
+    leaderboardButton.onclick=async()=>{
+        const token=localStorage.getItem('token');
+        const userleaderboardArray=await axios.get('http://localhost:3000/premium/leaderboard',{headers:{'Authorization':token}})
+        console.log(userleaderboardArray);
+
+        const leadderboardElement=document.getElementById('leaderboard')
+        const leadderboardli=document.createElement('li')
+        leadderboardElement.innerHTML+="<h2>leader board</h2>"
+        userleaderboardArray.data.forEach(element => {
+            leadderboardElement.innerHTML +=`<li>name:${element.name} expence:${element.expence}</li>`
+        });
+    }
+    premium.appendChild(leaderboardButton);
+
+}
