@@ -120,7 +120,7 @@ async function premiumfeature(result){
         const leadderboardli=document.createElement('li')
         leadderboardElement.innerHTML+="<h2>leader board</h2>"
         userleaderboardArray.data.forEach(element => {
-            leadderboardElement.innerHTML +=`<li>name:${element.name} expence:${element.expence}</li>`
+            leadderboardElement.innerHTML +=`<li>name:${element.name} expence:${element.total_cost}</li>`
         });
     }
     premium.appendChild(leaderboardButton);
