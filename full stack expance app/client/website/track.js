@@ -2,7 +2,6 @@ window.addEventListener('DOMContentLoaded',async()=>{
     const token = localStorage.getItem('token')
     let detail =await axios.get('http://localhost:3000/getexpence',{headers:{'Authorization':token}}).then((result)=>{
         console.log(result.data);
-        totalexp(result)
         for(let i=0;i<result.data.length;i++){
             showDeleteEdit(result.data[i]);
         }
@@ -16,7 +15,7 @@ window.addEventListener('DOMContentLoaded',async()=>{
 
 
 
-function myfunc(event){
+async function myfunc(event){
     //event.preventDefault();
     let detail={
         name:document.getElementById('name').value,
@@ -24,9 +23,8 @@ function myfunc(event){
         item:document.getElementById('item').value,
         category:document.getElementById('category').value
     }
-    console.log(mode)
     const token = localStorage.getItem('token')
-        axios.post('http://localhost:3000/datapost',detail,{headers:{'Authorization':token}})
+    await axios.post('http://localhost:3000/datapost',detail,{headers:{'Authorization':token}})
     
     document.getElementById('name').value=null;
     document.getElementById('expence').value=null;
@@ -56,14 +54,7 @@ async function showDeleteEdit(detail){
     expenceList.appendChild(expence);
 }
 
-function totalexp(total){
-    let totalexp=document.getElementById('total');
-    var totalexpenditure=0;
-    for(let i=0;i<total.data.length;i++){
-        totalexpenditure+=total.data[i].exp;
-    }
-    totalexp.textContent="total expendeture:"+totalexpenditure;
-}
+
 
 window.addEventListener('DOMContentLoaded',()=>{
     const token=localStorage.getItem('token')
@@ -98,7 +89,7 @@ document.getElementById('rzp-button1').onclick= async function (e){
     };
     const rzp1=new Razorpay(options);
     rzp1.open();
-    // e.preventDefault();
+    e.preventDefault();
     rzp1.on('payment.failed',function(response){
         console.log(response);
         alert('something wrong')
@@ -120,7 +111,7 @@ async function premiumfeature(result){
         const leadderboardli=document.createElement('li')
         leadderboardElement.innerHTML+="<h2>leader board</h2>"
         userleaderboardArray.data.forEach(element => {
-            leadderboardElement.innerHTML +=`<li>name:${element.name} expence:${element.total_cost}</li>`
+            leadderboardElement.innerHTML +=`<li>name:${element.name} expence:${element.totalexpence}</li>`
         });
     }
     premium.appendChild(leaderboardButton);

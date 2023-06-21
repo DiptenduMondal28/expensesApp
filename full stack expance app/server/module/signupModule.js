@@ -15,7 +15,11 @@ const User=sequalize.define('user',{
         unique: true
     },
     password:Sequalize.STRING,
-    ispremium:Sequalize.BOOLEAN
+    ispremium:Sequalize.BOOLEAN,
+    totalexpence:{
+        type:Sequalize.INTEGER,
+        defaultValue:0
+    }
 });
 
 module.exports = User;

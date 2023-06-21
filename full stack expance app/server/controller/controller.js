@@ -1,4 +1,6 @@
 const User=require('../module/module');
+const Credential=require('../module/signupModule')
+
 
 module.exports.dataupload=async(req,res,next)=>{
     try{
@@ -17,8 +19,12 @@ module.exports.dataupload=async(req,res,next)=>{
             category:category,
             userId:req.user.id
         }).then(result=>{
-            console.log(result)
-            return res.status(201).json({result,success:true})
+            const totalExpence=Number(req.user.totalexpence)+Number(exp);
+            Credential.update({totalexpence:totalExpence},{where:{id:req.user.id}}).then(async()=>{
+                res.status(200).json({expence:expence})
+            }).catch(async(err)=>{
+                return res.status(500).json({success:false,error:err})
+            })
         }).catch(err=>{
             console.log(err)
         })
