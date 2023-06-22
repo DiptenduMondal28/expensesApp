@@ -34,3 +34,8 @@ async function login(event){
     //     document.body.innerHTML+=`<div style="color:red;">line 29${err}</div>`
     // }
 }
+
+
+document.getElementById('forgotPassword').onclick=()=>{
+    window.location.href='../forgotPassword/forgotPassword.html'
+}
