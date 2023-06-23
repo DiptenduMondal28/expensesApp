@@ -3,6 +3,10 @@ const router=express.Router();
 
 const forgotPasswordController=require('../controller/forgotPasswordController');
 
-router.post('/forgotpassword',forgotPasswordController.forgotPasswordEmail)
+router.use('/forgotpassword',forgotPasswordController.forgotPassword)
+
+router.get('/resetpassword/:id',forgotPasswordController.resetpassword);
+
+router.use('/updatepassword/:resetpasswordid',forgotPasswordController.updatepassword)
 
 module.exports=router;

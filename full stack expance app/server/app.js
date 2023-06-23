@@ -2,6 +2,9 @@
 const express=require('express');
 const bodyParser=require('body-parser');
 const cors=require('cors');
+const path=require('path')
+const dotenv=require('dotenv');
+dotenv.config();
 
 //database import
 const sequelize=require('./util/database');
@@ -18,11 +21,13 @@ const forgotPassword=require('./router/forgotPasswordRouter')
 const User = require('./module/signupModule');
 const Expence = require('./module/module');
 const Order=require('./module/puchase');
+const ForgotPassword=require('./module/forgotPasswordRequestModule')
 
 //use of express module
 const app=express();
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.json());
 
 app.use(signupRouter) //sign up page router
 app.use('/password',forgotPassword);//forgot password router
@@ -42,7 +47,10 @@ Expence.belongsTo(User);
 User.hasMany(Order);
 Order.belongsTo(User);
 
-sequelize.sync().then(result=>{
+User.hasMany(ForgotPassword);
+ForgotPassword.belongsTo(User);
+
+sequelize.sync({force:true}).then(result=>{
     console.log("sync")
     app.listen(3000);
 }).catch(err=>{
