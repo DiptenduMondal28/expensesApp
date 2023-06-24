@@ -13,7 +13,18 @@ window.addEventListener('DOMContentLoaded',async()=>{
 
 })
 
-
+async function myCredit(event){
+    event.preventDefault();
+    let detail={
+        income:document.getElementById('income').value,
+        amount:document.getElementById('amount').value
+    }
+    console.log(detail.amount,detail.income)
+    const token=localStorage.getItem('token');
+    await axios.post('http://localhost:3000/income',detail,{headers:{'Authorization':token}})
+    document.getElementById('income').value=null;
+    document.getElementById('amount').value=null;
+}
 
 async function myfunc(event){
     //event.preventDefault();
@@ -116,4 +127,12 @@ async function premiumfeature(result){
     }
     premium.appendChild(leaderboardButton);
 
+    const downloadExpece=document.createElement('input');
+    downloadExpece.type='button';
+    downloadExpece.value='download list';
+    downloadExpece.onclick=async()=>{
+        const token=localStorage.getItem('token');
+        const file=await axios.get('http://localhost/premium/expencefile',{headers:{'Authorization':token}})
+    }
+    premium.appendChild(downloadExpece);
 }

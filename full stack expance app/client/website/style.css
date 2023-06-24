@@ -93,3 +93,52 @@ header {
   padding: 5px;
   margin: 5px;
 }
+
+#creditForm {
+  padding: 2rem;
+  background: #f4f4f4;
+}
+
+#creditForm label {
+  display: block;
+}
+
+#creditForm input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+#creditForm input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+#creditForm input[type="datetime-local"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.pull-left{
+  flex-basis: 20%;
+}
+.pull-right{
+  flex-basis: 50%;
+}
+.pull-right h2{
+  font-family:'Kalam', cursive ;
+  color:rgb(241, 57, 57);
+}
+.pull-left h2{
+  font-family: 'Kalam', cursive;
+  color: rgb(136, 202, 49);
+}
+.pull-right p{
+  font-family: 'Alkatra', cursive;
+  
+}

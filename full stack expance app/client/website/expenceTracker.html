@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alkatra&family=Kalam:wght@700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -14,52 +24,72 @@
     <header>
         <h3>expence tracker</h3>
     </header>
-    <div class="container">
-        <form id="my-form" onsubmit="myfunc(event)">
-            <div>
-                <label for="name">Item name:</label>
-                <input type="text" id="name">
-                <small>please input your item name</small>
-            </div>
-            <div>
-                <label for="expence">expence</label>
-                <input type="number" id="expence">
-            </div>
-            <div>
-                <label for="item">Item:</label>
-                <select name="item" id="item">
-                    <option value="petrol">petrol</option>
-                    <option value="diesel">diesel</option>
-                    <option value="movie">movie</option>
-                    <option value="food">Food</option>
-                    <option value="ticket">ticket</option>
-                    <option value="travel">travel</option>
-                    <option value="medicine">medicine</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <div>
-                <label for="category">Category:</label>
-                <select name="category" id="category">
-                    <option value="fuel">fuel</option>
-                    <option value="entertainment">entertainment</option>
-                    <option value="food">food</option>
-                    <option value="drink">drink</option>
-                    <option value="medicine">medicine</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <input type="submit" value="Submit" />
-        </form>
+    <div class="pull-right">
         <button id="rzp-button1">Buy Premium</button>
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-        <p id="ispremium"></p>
-        <h4>full expence list is below</h4>
-        <ul id="expencelist"></ul>
-        <!-- <h5>total expendeture of you is below :</h5>
-        <p id="total"></p> -->
-        <ul id="leaderboard"></ul>
     </div>
+    <div class="container">
+        <div class="pull-left">
+            <h2>Credit amount details</h2>
+            <form id="creditForm" onsubmit="myCredit(event)">
+                <div>
+                    <label for="income">income:</label>
+                    <input type="text" id="income" name="income">
+                    <small>type of your income bussiness or job or anything else</small>
+                </div>
+                <div>
+                    <label for="amount">Total income:</label>
+                    <input type="number" id="amount" name="amount">
+                </div>
+                <input type="submit" value="submit">
+            </form>
+        </div>
+        <div class="pull-right">
+            <h2>Debit amount details</h2>
+            <form id="my-form" onsubmit="myfunc(event)">
+                <div>
+                    <label for="name">Item name:</label>
+                    <input type="text" id="name">
+                    <small>please input your item name</small>
+                </div>
+                <div>
+                    <label for="expence">expence</label>
+                    <input type="number" id="expence">
+                </div>
+                <div>
+                    <label for="item">Item:</label>
+                    <select name="item" id="item">
+                        <option value="petrol">petrol</option>
+                        <option value="diesel">diesel</option>
+                        <option value="movie">movie</option>
+                        <option value="food">Food</option>
+                        <option value="ticket">ticket</option>
+                        <option value="travel">travel</option>
+                        <option value="medicine">medicine</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="category">Category:</label>
+                    <select name="category" id="category">
+                        <option value="fuel">fuel</option>
+                        <option value="entertainment">entertainment</option>
+                        <option value="food">food</option>
+                        <option value="drink">drink</option>
+                        <option value="medicine">medicine</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
+    <p id="ispremium"></p>
+    <h4>full expence list is below</h4>
+    <ul id="expencelist"></ul>
+    <!-- <h5>total expendeture of you is below :</h5>
+    <p id="total"></p> -->
+    <ul id="leaderboard"></ul>
     <ul id="expencelist"></ul>
     <script src="track.js"></script>
 </body>
