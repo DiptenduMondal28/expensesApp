@@ -28,7 +28,6 @@ module.exports.dataupload=async(req,res,next)=>{
             res.status(200).json({expence:expence})
 
         }catch(err){
-            await t.rollback();
             return res.status(500).json({success:false,error:err})
         }
        

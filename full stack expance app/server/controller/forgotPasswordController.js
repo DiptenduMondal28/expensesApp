@@ -12,7 +12,7 @@ module.exports.forgotPassword=async(req,res,next)=>{
     const forgotUserEmail=req.body.email;
 
     const user=await User.findOne({where:{email:forgotUserEmail}})
-    console.log(user.id)
+    
 
     if(user){
         const id = uuid.v4();

@@ -50,7 +50,7 @@ Order.belongsTo(User);
 User.hasMany(ForgotPassword);
 ForgotPassword.belongsTo(User);
 
-sequelize.sync({force:true}).then(result=>{
+sequelize.sync().then(result=>{
     console.log("sync")
     app.listen(3000);
 }).catch(err=>{

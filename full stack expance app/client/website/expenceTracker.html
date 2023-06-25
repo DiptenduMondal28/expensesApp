@@ -22,43 +22,28 @@
 </head>
 <body>
     <header>
-        <h3>expence tracker</h3>
+        <h1 style="color: rgb(14, 40, 187);">TracK youR Expences</h1>
     </header>
     <div class="pull-right">
-        <button id="rzp-button1">Buy Premium</button>
+        <button class="btn btn-dark" id="rzp-button1">Buy Premium</button>
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     </div>
-    <div class="container">
-        <div class="pull-left">
-            <h2>Credit amount details</h2>
-            <form id="creditForm" onsubmit="myCredit(event)">
-                <div>
-                    <label for="income">income:</label>
-                    <input type="text" id="income" name="income">
-                    <small>type of your income bussiness or job or anything else</small>
-                </div>
-                <div>
-                    <label for="amount">Total income:</label>
-                    <input type="number" id="amount" name="amount">
-                </div>
-                <input type="submit" value="submit">
-            </form>
-        </div>
-        <div class="pull-right">
-            <h2>Debit amount details</h2>
+    <section class="container">
+        <div class="form-row align-items-center">
+            <h2>Expence details</h2>
             <form id="my-form" onsubmit="myfunc(event)">
-                <div>
-                    <label for="name">Item name:</label>
-                    <input type="text" id="name">
+                <div class="form-group">
+                    <label for="name"><h5>Item name:</h5></label>
+                    <input type="text" id="name" required>
                     <small>please input your item name</small>
                 </div>
-                <div>
-                    <label for="expence">expence</label>
-                    <input type="number" id="expence">
+                <div class="form-group">
+                    <label for="expence"><h5>Expence amount:</h5></label>
+                    <input type="number" id="expence" required>
                 </div>
                 <div>
-                    <label for="item">Item:</label>
-                    <select name="item" id="item">
+                    <label for="item"><h5>Item Type:</h5></label>
+                    <select name="item" id="item" required>
                         <option value="petrol">petrol</option>
                         <option value="diesel">diesel</option>
                         <option value="movie">movie</option>
@@ -70,8 +55,8 @@
                     </select>
                 </div>
                 <div>
-                    <label for="category">Category:</label>
-                    <select name="category" id="category">
+                    <label for="category"><h5>Item Category:</h5></label>
+                    <select name="category" id="category" required>
                         <option value="fuel">fuel</option>
                         <option value="entertainment">entertainment</option>
                         <option value="food">food</option>
@@ -80,10 +65,10 @@
                         <option value="other">Other</option>
                     </select>
                 </div>
-                <input type="submit" value="Submit" />
+                <input class="btn btn-primary" type="submit" value="Submit" />
             </form>
         </div>
-    </div>
+    </section>
     <p id="ispremium"></p>
     <h4>full expence list is below</h4>
     <ul id="expencelist"></ul>
