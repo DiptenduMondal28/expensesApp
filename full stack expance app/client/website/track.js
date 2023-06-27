@@ -1,11 +1,15 @@
 window.addEventListener('DOMContentLoaded',async()=>{
+    const objUrlParams= new URLSearchParams(window.location.search);
+    const page=objUrlParams.get('page') || 1;
+    console.log('objUrlParams',objUrlParams);
+    console.log('page',page)
     const token = localStorage.getItem('token')
-    let detail =await axios.get('http://localhost:3000/getexpence',{headers:{'Authorization':token}}).then((result)=>{
-        console.log(result.data);
-        for(let i=0;i<result.data.length;i++){
-            showDeleteEdit(result.data[i]);
+    let detail =await axios.get(`http://localhost:3000/getexpence?page=${page}`,{headers:{'Authorization':token}}).then(({data:{expence,...PageData}})=>{
+        console.log(expence);
+        for(let i=0;i<expence.length;i++){
+            showDelete(expence[i]);
         }
-        
+        showpagination(PageData);
     }).catch(err=>{
         console.log(err);
     })
@@ -13,39 +17,55 @@ window.addEventListener('DOMContentLoaded',async()=>{
 
 })
 
-async function myCredit(event){
-    event.preventDefault();
-    let detail={
-        income:document.getElementById('income').value,
-        amount:document.getElementById('amount').value
-    }
-    console.log(detail.amount,detail.income)
-    const token=localStorage.getItem('token');
-    await axios.post('http://localhost:3000/income',detail,{headers:{'Authorization':token}})
-    document.getElementById('income').value=null;
-    document.getElementById('amount').value=null;
-}
+const pagination=document.getElementById('pagination')
 
-async function myfunc(event){
-    //event.preventDefault();
-    let detail={
-        name:document.getElementById('name').value,
-        exp:document.getElementById('expence').value,
-        item:document.getElementById('item').value,
-        category:document.getElementById('category').value
-    }
-    const token = localStorage.getItem('token')
-    await axios.post('http://localhost:3000/datapost',detail,{headers:{'Authorization':token}})
+async function showpagination({
+    currentPage,
+    hasNextPage,
+    nextPage,
+    hasPreviousPage,
+    previousPage,
+    lastPage}){
     
-    document.getElementById('name').value=null;
-    document.getElementById('expence').value=null;
-    document.getElementById('item').value=null;
-    document.getElementById('category').value=null;
+    pagination.innerHTML='';
+    console.log(previousPage,currentPage,nextPage)
+    if(hasPreviousPage){
+        const btn2=document.createElement('button');
+        btn2.innerHTML=previousPage;
+        btn2.addEventListener('click',()=>getExpence(previousPage));
+        pagination.appendChild(btn2);
+    }
+
+    const btn1=document.createElement('button');
+    btn1.innerHTML=`<h3>${currentPage}</h3>`;
+    btn1.addEventListener('click',()=>getExpence(currentPage));
+    pagination.appendChild(btn1);
+
+    if(hasNextPage && nextPage<=lastPage){
+        const btn3=document.createElement('button');
+        btn3.innerHTML=nextPage;
+        btn3.addEventListener('click',()=>getExpence(nextPage));
+        pagination.appendChild(btn3);
+    }
+
+}
+
+async function getExpence(page){
+    console.log(page)
+    const token = localStorage.getItem('token')
+    await axios.get(`http://localhost:3000/getexpence?page=${page}`,{headers:{'Authorization':token}}).then(({data:{expence,...PageData}})=>{
+        console.log(expence);
+        for(let i=0;i<expence.length;i++){
+            showDelete(expence[i]);
+        }
+        showpagination(PageData);
+    }).catch(err=>{
+        console.log(err);
+    })
 }
 
 
-
-async function showDeleteEdit(detail){
+async function showDelete(detail){
 
     let expenceList=document.getElementById('expencelist');
 
@@ -65,7 +85,22 @@ async function showDeleteEdit(detail){
     expenceList.appendChild(expence);
 }
 
-
+async function myfunc(event){
+    //event.preventDefault();
+    let detail={
+        name:document.getElementById('name').value,
+        exp:document.getElementById('expence').value,
+        item:document.getElementById('item').value,
+        category:document.getElementById('category').value
+    }
+    const token = localStorage.getItem('token')
+    await axios.post('http://localhost:3000/datapost',detail,{headers:{'Authorization':token}})
+    
+    document.getElementById('name').value=null;
+    document.getElementById('expence').value=null;
+    document.getElementById('item').value=null;
+    document.getElementById('category').value=null;
+}
 
 window.addEventListener('DOMContentLoaded',()=>{
     const token=localStorage.getItem('token')

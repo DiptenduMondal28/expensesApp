@@ -38,15 +38,38 @@ module.exports.dataupload=async(req,res,next)=>{
     }
 }
 
+const ITEMS_PER_PAGE=4;
 module.exports.getdata=async(req,res,next)=>{
-    const expence=await Expence.getExpences(req)
+    console.log(req.user.id)
+    let page=Number(req.query.page) || 1;
+    let totalItems;
+    await User.count({where:{userId:req.user.id}}).then((total)=>{
+        totalItems=total;
+        return User.findAll({
+            offset:(page-1)*4,
+            limit:ITEMS_PER_PAGE,
+            where:{userId:req.user.id}
+        });
+    }).then((expence)=>{
+        res.json({
+            expence:expence,
+            currentPage:page,
+            hasNextPage:ITEMS_PER_PAGE*page<totalItems,
+            nextPage:page+1,
+            hasPreviousPage:page>1,
+            previousPage:page-1,
+            lastPage:Math.ceil(totalItems/ITEMS_PER_PAGE)
+        })
+    }).catch(err=>console.log(err))
 
-    try{
-        res.send(expence);
-    }catch(err){
-        console.log(err)
-        res.send(err);
-    }
+    // const expence=await Expence.getExpences(req)
+
+    // try{
+    //     res.send(expence);
+    // }catch(err){
+    //     console.log(err)
+    //     res.send(err);
+    // }
 }
 
 
