@@ -22,6 +22,7 @@ const User = require('./module/signupModule');
 const Expence = require('./module/module');
 const Order=require('./module/puchase');
 const ForgotPassword=require('./module/forgotPasswordRequestModule')
+const UrlModule=require('./module/urlDownloadData')
 
 //use of express module
 const app=express();
@@ -49,6 +50,9 @@ Order.belongsTo(User);
 
 User.hasMany(ForgotPassword);
 ForgotPassword.belongsTo(User);
+
+User.hasMany(UrlModule);
+UrlModule.belongsTo(User);
 
 sequelize.sync().then(result=>{
     console.log("sync")

@@ -13,8 +13,6 @@ router.get('/getexpence',authentication.authenticate,controller.getdata);
 //delete data from list
 router.delete('/deletadata/:id',authentication.authenticate,controller.deletedata);
 
-//is premium or not
-// router.get('/ispremium',authentication.authenticate,controller.ispremium)
 
 
 module.exports=router;

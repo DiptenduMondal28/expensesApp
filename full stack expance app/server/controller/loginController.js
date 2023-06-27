@@ -1,8 +1,6 @@
-const Credential=require('../module/signupModule');
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken');
-const { where } = require('sequelize');
-const env = require('dotenv').config();
+const findCredential=require('../service/userCredential')
 
 function generateAccessToken(id,name){
     return jwt.sign({userId:id,name:name},process.env.token)
@@ -11,8 +9,7 @@ function generateAccessToken(id,name){
 module.exports.login=async(req,res,next)=>{
         const email=req.body.email;
         const password=req.body.password;
-        //console.log(`email:${email} password:${password}`)
-        const credentialCheck=await Credential.findAll({where:{email}}).then(user =>{
+        const credentialCheck=await findCredential.findCredential(req,email).then(user =>{
             if(user.length>0){
                 bcrypt.compare(password,user[0].password,(err,result)=>{
                     if(result){
@@ -25,11 +22,6 @@ module.exports.login=async(req,res,next)=>{
                         res.status(500).json({success:false,message:`something error:${err}`})
                     }
                 })
-                // if(user[0].password===password){
-                //     res.status(200).json({success:true,message:'user logged in succesfully'})
-                // }else{
-                //     return res.status(401).json({success:false,message:'check password'})
-                // }
             }else{
                 res.status(404).json({success:false,message:"user not signup"})
             }
@@ -42,7 +34,7 @@ module.exports.login=async(req,res,next)=>{
 
 module.exports.ispremium=async (req,res,next)=>{
     console.log(req.user.id)
-    const detail=await  Credential.findAll({where:{id:req.user.id}})
+    const detail=await findCredential.ispremium(req);
     console.log(detail)
     res.send(detail);
 }

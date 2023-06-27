@@ -132,7 +132,18 @@ async function premiumfeature(result){
     downloadExpece.value='download list';
     downloadExpece.onclick=async()=>{
         const token=localStorage.getItem('token');
-        const file=await axios.get('http://localhost/premium/expencefile',{headers:{'Authorization':token}})
+        const file=await axios.get('http://localhost:3000/premium/download',{headers:{'Authorization':token}}).then(response=>{
+            if(response.status===200){
+                var a = document.createElement('a');
+                a.href=response.data.fileUrl;
+                a.download='myexpense.csv';
+                a.click();
+            }else{
+                throw new Error(response.data.message);
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
     }
     premium.appendChild(downloadExpece);
 }
