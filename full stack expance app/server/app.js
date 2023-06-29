@@ -2,9 +2,13 @@
 const express=require('express');
 const bodyParser=require('body-parser');
 const cors=require('cors');
-const path=require('path')
+const path=require('path');
+const fs=require('fs')
 const dotenv=require('dotenv');
 dotenv.config();
+const helmet=require('helmet');
+const compression=require('compression');
+const morgan=require('morgan');
 
 //database import
 const sequelize=require('./util/database');
@@ -24,8 +28,16 @@ const Order=require('./module/puchase');
 const ForgotPassword=require('./module/forgotPasswordRequestModule')
 const UrlModule=require('./module/urlDownloadData')
 
+
+//file system store for matgan
+const accessLogStream=fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'});
+
+
 //use of express module
 const app=express();
+app.use(helmet());
+app.use(compression());
+app.use(morgan('combined',{stream:accessLogStream}));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
@@ -56,7 +68,7 @@ UrlModule.belongsTo(User);
 
 sequelize.sync().then(result=>{
     console.log("sync")
-    app.listen(3000);
+    app.listen(process.env.PORT);
 }).catch(err=>{
     console.log(err);
 });
