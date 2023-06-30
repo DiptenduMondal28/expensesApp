@@ -48,7 +48,7 @@ module.exports.getdata=async(req,res,next)=>{
     await User.count({where:{userId:req.user.id}}).then((total)=>{
         totalItems=total;
         return User.findAll({
-            offset:(page-1)*4,
+            offset:(page-1)*ITEMS_PER_PAGE,
             limit:ITEMS_PER_PAGE,
             where:{userId:req.user.id}
         });
